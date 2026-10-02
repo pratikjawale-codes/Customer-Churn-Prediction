@@ -1,0 +1,11 @@
+.git
+.venv
+.pytest_cache
+__pycache__
+*.py[cod]
+artifacts
+catboost_info
+mlflow.db*
+mlruns
+mlartifacts
+data/*.csv

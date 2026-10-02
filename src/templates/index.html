@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5f1">
+  <title>Pearl | Customer Churn Intelligence</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Pearl home">
+        <span class="brand-mark" aria-hidden="true">p</span>
+        <span>Pearl<span class="brand-dot">.</span></span>
+      </a>
+      <div class="service-status" aria-live="polite">
+        <span class="status-dot" id="status-dot"></span>
+        <span id="service-status">Checking model</span>
+      </div>
+    </header>
+
+    <section class="intro">
+      <div class="intro-copy">
+        <p class="eyebrow">CUSTOMER RETENTION · AI INSIGHTS</p>
+        <h1>Keep good customers<br><span>close to home.</span></h1>
+        <p class="intro-text">Understand churn risk early and turn a customer profile into a thoughtful next step.</p>
+      </div>
+      <div class="intro-orb" aria-hidden="true">
+        <div class="orb-inner"><span>p</span></div>
+        <span class="orb-caption">Clarity for every customer</span>
+      </div>
+    </section>
+
+    <section class="workspace" aria-label="Customer churn prediction">
+      <form id="customer-form" class="profile-card">
+        <div class="card-heading">
+          <div>
+            <p class="eyebrow">PREDICTION WORKSPACE</p>
+            <h2>Customer profile</h2>
+          </div>
+          <span class="step-pill">01 <span>/</span> 02</span>
+        </div>
+
+        <fieldset>
+          <legend><span class="section-number">01</span> About the customer</legend>
+          <div class="form-grid">
+            <label>Customer reference <span class="optional">optional</span>
+              <input name="customerID" type="text" value="CUST-DEMO-01" autocomplete="off">
+            </label>
+            <label>Gender
+              <select name="gender"><option>Female</option><option>Male</option></select>
+            </label>
+            <label>Senior citizen
+              <select name="SeniorCitizen"><option value="0">No</option><option value="1">Yes</option></select>
+            </label>
+            <label>Partner
+              <select name="Partner"><option>No</option><option>Yes</option></select>
+            </label>
+            <label>Dependents
+              <select name="Dependents"><option>No</option><option>Yes</option></select>
+            </label>
+            <label>Tenure <span class="unit">months</span>
+              <input name="tenure" type="number" min="1" max="72" value="48" required>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend><span class="section-number">02</span> Connectivity & services</legend>
+          <div class="form-grid">
+            <label>Phone service
+              <select name="PhoneService"><option>Yes</option><option>No</option></select>
+            </label>
+            <label>Multiple lines
+              <select name="MultipleLines"><option>Yes</option><option>No</option><option>No phone service</option></select>
+            </label>
+            <label>Internet service
+              <select name="InternetService"><option>DSL</option><option>Fiber optic</option><option>No</option></select>
+            </label>
+            <label>Online security
+              <select name="OnlineSecurity"><option>Yes</option><option>No</option><option>No internet service</option></select>
+            </label>
+            <label>Online backup
+              <select name="OnlineBackup"><option>Yes</option><option>No</option><option>No internet service</option></select>
+            </label>
+            <label>Device protection
+              <select name="DeviceProtection"><option>Yes</option><option>No</option><option>No internet service</option></select>
+            </label>
+            <label>Tech support
+              <select name="TechSupport"><option>Yes</option><option>No</option><option>No internet service</option></select>
+            </label>
+            <label>Streaming TV
+              <select name="StreamingTV"><option>Yes</option><option>No</option><option>No internet service</option></select>
+            </label>
+            <label>Streaming movies
+              <select name="StreamingMovies"><option>Yes</option><option>No</option><option>No internet service</option></select>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend><span class="section-number">03</span> Plan & billing</legend>
+          <div class="form-grid">
+            <label>Contract
+              <select name="Contract"><option>Two year</option><option>Month-to-month</option><option>One year</option></select>
+            </label>
+            <label>Paperless billing
+              <select name="PaperlessBilling"><option>No</option><option>Yes</option></select>
+            </label>
+            <label>Payment method
+              <select name="PaymentMethod">
+                <option>Bank transfer (automatic)</option>
+                <option>Electronic check</option>
+                <option>Mailed check</option>
+                <option>Credit card (automatic)</option>
+              </select>
+            </label>
+            <label>Monthly charges <span class="unit">USD</span>
+              <input name="MonthlyCharges" type="number" min="0" step="0.01" value="70.00" required>
+            </label>
+            <label>Total charges <span class="unit">USD</span>
+              <input name="TotalCharges" type="number" min="0" step="0.01" value="3360.00" required>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="form-footer">
+          <p>Predictions are estimates from a synthetic-data model.</p>
+          <button type="submit" id="predict-button">
+            <span>Reveal churn outlook</span><span aria-hidden="true">↗</span>
+          </button>
+        </div>
+      </form>
+
+      <aside class="insight-panel" aria-live="polite">
+        <div class="insight-top">
+          <span class="insight-icon" aria-hidden="true">✦</span>
+          <span>YOUR CUSTOMER BRIEF</span>
+        </div>
+        <div id="empty-state" class="empty-state">
+          <div class="empty-illustration" aria-hidden="true">
+            <span class="spark spark-one">✦</span>
+            <span class="spark spark-two">✧</span>
+            <div class="empty-ring"><span>p</span></div>
+          </div>
+          <p class="eyebrow">A LITTLE MORE CONTEXT</p>
+          <h2>Good decisions<br>start with listening.</h2>
+          <p class="empty-copy">Complete the profile to see the model’s churn outlook and a suggested retention action.</p>
+        </div>
+        <div id="result-state" class="result-state" hidden>
+          <p class="eyebrow">CHURN PROBABILITY</p>
+          <div class="score-line">
+            <strong id="score">—</strong>
+            <span id="risk-label" class="risk-label">—</span>
+          </div>
+          <div class="meter" role="progressbar" aria-label="Churn probability" aria-valuemin="0" aria-valuemax="100" id="probability-meter">
+            <span id="probability-bar"></span>
+          </div>
+          <p class="prediction-copy" id="prediction-copy"></p>
+          <div class="recommendation">
+            <span class="recommendation-icon" aria-hidden="true">✦</span>
+            <div>
+              <p class="eyebrow">A THOUGHTFUL NEXT STEP</p>
+              <p id="recommendation-text"></p>
+            </div>
+          </div>
+          <p class="customer-ref">Customer <span id="customer-ref">—</span></p>
+        </div>
+        <p id="form-error" class="form-error" role="alert" hidden></p>
+        <div class="panel-foot">
+          <span>PEARL INTELLIGENCE</span><span>BUILT FOR BETTER RETENTION</span>
+        </div>
+      </aside>
+    </section>
+
+    <footer class="page-footer">
+      <span>PEARL · CUSTOMER CHURN PREDICTION</span>
+      <span>A decision-support signal, not a certainty.</span>
+    </footer>
+  </main>
+</body>
+</html>
